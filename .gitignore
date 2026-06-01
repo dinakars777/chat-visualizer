@@ -1,0 +1,34 @@
+# Dependencies and package manager noise
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+
+# Local transcript/database exports
+*.jsonl
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+
+# Generated test/browser artifacts
+.playwright-mcp/
+playwright-report/
+test-results/
+coverage/
+
+# Internal planning/design artifacts
+ChatVisualizer-internal/
+PRODUCT.md
+docs/research.md
+.impeccable/
+
+# OS/editor noise
+.DS_Store
+*.swp

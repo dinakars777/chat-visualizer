@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ChatVisualizer</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Local session index</p>
+          <h1>ChatVisualizer</h1>
+        </div>
+        <div class="top-actions">
+          <button id="refreshButton" class="button secondary" type="button">Refresh</button>
+          <button id="deepSearchButton" class="button primary" type="button">Deep search</button>
+        </div>
+      </header>
+
+      <section class="metrics-strip" aria-label="History metrics">
+        <div class="metric">
+          <span class="metric-value" id="metricProjects">0</span>
+          <span class="metric-label">Projects</span>
+        </div>
+        <div class="metric">
+          <span class="metric-value" id="metricSessions">0</span>
+          <span class="metric-label">Sessions</span>
+        </div>
+        <div class="metric">
+          <span class="metric-value" id="metricMessages">0</span>
+          <span class="metric-label">Indexed msgs</span>
+        </div>
+        <div class="metric warning">
+          <span class="metric-value" id="metricSensitive">0</span>
+          <span class="metric-label">Privacy flags</span>
+        </div>
+      </section>
+
+      <main class="workspace">
+        <aside class="sidebar" aria-label="Projects">
+          <div class="toolbar">
+            <label class="search-label" for="filterInput">Search</label>
+            <input id="filterInput" class="search-input" type="search" placeholder="Project, session, provider, text">
+          </div>
+
+          <div class="provider-row" id="providerFilters" aria-label="Provider filters"></div>
+
+          <section class="panel-section">
+            <div class="section-head">
+              <h2>Projects</h2>
+              <span id="projectCount" class="count-pill">0</span>
+            </div>
+            <div id="projectList" class="project-list" role="listbox" aria-label="Project list"></div>
+          </section>
+        </aside>
+
+        <section class="session-column" aria-label="Sessions">
+          <div class="section-head sticky-head">
+            <div>
+              <p class="eyebrow" id="activeProjectPath">All projects</p>
+              <h2 id="activeProjectName">Recent sessions</h2>
+            </div>
+            <span id="sessionCount" class="count-pill">0</span>
+          </div>
+          <div id="sessionList" class="session-list"></div>
+        </section>
+
+        <section class="reader" aria-label="Transcript reader">
+          <div class="reader-empty" id="readerEmpty">
+            <p class="eyebrow">No session selected</p>
+            <h2>Open a session to inspect the transcript.</h2>
+          </div>
+
+          <article class="reader-content hidden" id="readerContent">
+            <div class="reader-head">
+              <div>
+                <p class="eyebrow" id="readerProvider">Provider</p>
+                <h2 id="readerTitle">Session</h2>
+                <p id="readerSubtitle" class="reader-subtitle"></p>
+              </div>
+              <div class="reader-actions">
+                <button id="copyResumeButton" class="button secondary compact" type="button">Copy resume</button>
+                <button id="copyPathButton" class="button secondary compact" type="button">Copy path</button>
+              </div>
+            </div>
+
+            <div class="detail-grid">
+              <div>
+                <span class="detail-label">Messages</span>
+                <strong id="readerMessages">0</strong>
+              </div>
+              <div>
+                <span class="detail-label">Updated</span>
+                <strong id="readerUpdated">-</strong>
+              </div>
+              <div>
+                <span class="detail-label">Model</span>
+                <strong id="readerModel">-</strong>
+              </div>
+              <div>
+                <span class="detail-label">Flags</span>
+                <strong id="readerFlags">0</strong>
+              </div>
+            </div>
+
+            <div id="privacyPanel" class="privacy-panel hidden"></div>
+            <div id="transcriptNotice" class="transcript-notice hidden" role="status" aria-live="polite">
+              <div>
+                <strong id="transcriptNoticeTitle">Loading transcript</strong>
+                <span id="transcriptNoticeText">Large threads are loaded in chunks to keep the interface responsive.</span>
+              </div>
+              <button id="loadMoreMessagesButton" class="button primary compact" type="button">Load next messages</button>
+            </div>
+            <div id="messageList" class="message-list"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
