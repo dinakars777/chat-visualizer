@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Local-first browser for Codex, Claude Code, Cursor, Grok Build, and Antigravity chat/session history.",
+  "license": "MIT",
   "type": "commonjs",
   "scripts": {
     "dev": "node server.js",

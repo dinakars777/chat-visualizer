@@ -76,3 +76,7 @@ ChatVisualizer is local-first:
 - It does not call an AI service.
 
 Large transcripts are loaded in chunks. The index screen stays fast, and opening a very large session shows the first page of messages with a visible notice and a "Load next messages" action.
+
+## License
+
+MIT
