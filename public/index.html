@@ -82,6 +82,15 @@
                 <p id="readerSubtitle" class="reader-subtitle"></p>
               </div>
               <div class="reader-actions">
+                <div class="export-menu">
+                  <button id="exportButton" class="button secondary compact" type="button" aria-haspopup="menu" aria-expanded="false">
+                    Export
+                  </button>
+                  <div id="exportMenu" class="export-popover hidden" role="menu" aria-label="Export transcript">
+                    <button id="exportMarkdownButton" type="button" role="menuitem">Markdown</button>
+                    <button id="exportJsonButton" type="button" role="menuitem">JSON</button>
+                  </div>
+                </div>
                 <button id="copyResumeButton" class="button secondary compact" type="button">Copy resume</button>
                 <button id="copyPathButton" class="button secondary compact" type="button">Copy path</button>
               </div>

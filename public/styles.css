@@ -112,7 +112,8 @@ button {
 .search-input:focus-visible,
 .project-item:focus-visible,
 .session-item:focus-visible,
-.provider-chip:focus-visible {
+.provider-chip:focus-visible,
+.export-popover button:focus-visible {
   outline: 3px solid oklch(0.52 0.21 260 / 0.24);
   outline-offset: 2px;
 }
@@ -137,6 +138,43 @@ button {
   min-height: 34px;
   padding: 0 10px;
   font-size: 13px;
+}
+
+.export-menu {
+  position: relative;
+}
+
+.export-popover {
+  position: absolute;
+  z-index: calc(var(--z-sticky) + 1);
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 150px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.export-popover button {
+  display: block;
+  width: 100%;
+  min-height: 36px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 0 12px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+
+.export-popover button:last-child {
+  border-bottom: 0;
+}
+
+.export-popover button:hover {
+  background: var(--surface-panel);
 }
 
 .metrics-strip {
@@ -695,6 +733,19 @@ button {
     flex: 1 1 auto;
   }
 
+  .export-menu {
+    flex: 1 1 auto;
+  }
+
+  .export-menu > .button {
+    width: 100%;
+  }
+
+  .export-popover {
+    left: 0;
+    right: 0;
+  }
+
   .metrics-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -716,6 +767,7 @@ button {
   }
 
   .reader-head {
+    align-items: stretch;
     flex-direction: column;
   }
 

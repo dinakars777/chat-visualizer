@@ -11,6 +11,7 @@ const PORT = Number(process.env.PORT || 4173);
 const PUBLIC_DIR = path.join(__dirname, "public");
 const JSON_LIMIT_BYTES = 2 * 1024 * 1024;
 const SEARCH_RESULT_LIMIT = 160;
+const EXPORT_PAGE_SIZE = 400;
 
 const providerConfig = {
   codex: {
@@ -1318,6 +1319,43 @@ async function loadSessionPageById(sessionId, offset = 0, limit = 80) {
   return details;
 }
 
+async function loadFullSessionById(sessionId) {
+  let offset = 0;
+  let session = null;
+  const messages = [];
+
+  while (true) {
+    const details = await loadSessionPageById(sessionId, offset, EXPORT_PAGE_SIZE);
+    if (!details) return null;
+    session = details.session;
+    const pageMessages = details.messages || [];
+    messages.push(...pageMessages);
+
+    const hasMore = Boolean(details.page?.hasMore || details.session?.hasMore);
+    if (!hasMore) break;
+    if (!pageMessages.length) break;
+    offset += pageMessages.length;
+  }
+
+  return {
+    session: {
+      ...session,
+      messageCount: Math.max(session?.messageCount || 0, messages.length),
+      loadedCount: messages.length,
+      loadedThrough: messages.length,
+      hasMore: false,
+      totalKnown: true
+    },
+    messages,
+    page: {
+      offset: 0,
+      limit: messages.length,
+      returned: messages.length,
+      hasMore: false
+    }
+  };
+}
+
 function mergeDetailSession(summary, parsed, page) {
   const indexedTotalIsKnown = !summary.indexSampled && !page.hasMore;
   return {
@@ -1506,6 +1544,106 @@ function sendText(res, statusCode, text, contentType = "text/plain; charset=utf-
   res.end(text);
 }
 
+function sendDownload(res, text, contentType, filename) {
+  const body = Buffer.from(text, "utf8");
+  res.writeHead(200, {
+    "content-type": contentType,
+    "cache-control": "no-store",
+    "content-disposition": `attachment; filename="${filename}"`,
+    "content-length": body.length
+  });
+  res.end(body);
+}
+
+function filenameSlug(value, fallback = "chat") {
+  const slug = String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+  return slug || fallback;
+}
+
+function exportFilename(session, format) {
+  const date = session?.updatedAt ? new Date(session.updatedAt).toISOString().slice(0, 10) : "undated";
+  const provider = filenameSlug(session?.providerLabel || session?.provider, "session");
+  const sessionId = filenameSlug(session?.id || session?.nativeSessionId, "chat").slice(0, 24);
+  const extension = format === "json" ? "json" : "md";
+  return `${provider}-${date}-${sessionId}.${extension}`;
+}
+
+function exportPayload(details) {
+  return {
+    exportedAt: new Date().toISOString(),
+    formatVersion: 1,
+    session: details.session,
+    messages: details.messages
+  };
+}
+
+function markdownHeading(value) {
+  return String(value || "Untitled session").replace(/\r?\n/g, " ").trim() || "Untitled session";
+}
+
+function markdownLine(label, value) {
+  const clean = String(value || "").replace(/\r?\n/g, " ").trim();
+  return clean ? `- ${label}: ${clean}` : "";
+}
+
+function exportMarkdown(details) {
+  const { session, messages } = details;
+  const lines = [
+    `# ${markdownHeading(session.title)}`,
+    "",
+    ...[
+      markdownLine("Provider", session.providerLabel || session.provider),
+      markdownLine("Project", session.projectPath || session.projectName),
+      markdownLine("Updated", session.updatedAt ? new Date(session.updatedAt).toISOString() : ""),
+      markdownLine("Model", session.model),
+      markdownLine("Messages", String(messages.length)),
+      markdownLine("Source", session.sourcePath),
+      markdownLine("Exported", new Date().toISOString())
+    ].filter(Boolean),
+    "",
+    "## Transcript",
+    ""
+  ];
+
+  for (const [index, message] of messages.entries()) {
+    const role = markdownHeading(message.role || "system");
+    lines.push(`### ${index + 1}. ${role}`);
+    if (message.timestamp || message.lineNumber) {
+      const parts = [];
+      if (message.timestamp) parts.push(new Date(message.timestamp).toISOString());
+      if (message.lineNumber) parts.push(`line ${message.lineNumber}`);
+      lines.push("");
+      lines.push(`_${parts.join(" / ")}_`);
+    }
+    lines.push("");
+    lines.push(String(message.text || message.title || "[empty]").trim() || "[empty]");
+    lines.push("");
+  }
+
+  return `${lines.join("\n")}\n`;
+}
+
+async function exportSession(sessionId, format) {
+  const details = await loadFullSessionById(sessionId);
+  if (!details) return null;
+  if (format === "json") {
+    return {
+      filename: exportFilename(details.session, "json"),
+      contentType: "application/json; charset=utf-8",
+      body: `${JSON.stringify(exportPayload(details), null, 2)}\n`
+    };
+  }
+  return {
+    filename: exportFilename(details.session, "markdown"),
+    contentType: "text/markdown; charset=utf-8",
+    body: exportMarkdown(details)
+  };
+}
+
 function serveStatic(req, res, pathname) {
   const relativePath = pathname === "/" ? "index.html" : pathname.slice(1);
   const filePath = path.normalize(path.join(PUBLIC_DIR, relativePath));
@@ -1558,6 +1696,19 @@ async function handleApi(req, res, url) {
         generatedAt: state.cache?.generatedAt || null,
         stats: state.cache?.stats || null
       });
+      return;
+    }
+
+    if (url.pathname.startsWith("/api/export/session/")) {
+      const sessionId = decodeURIComponent(url.pathname.slice("/api/export/session/".length));
+      const requestedFormat = (url.searchParams.get("format") || "markdown").toLowerCase();
+      const format = requestedFormat === "json" ? "json" : "markdown";
+      const exported = await exportSession(sessionId, format);
+      if (!exported) {
+        sendJson(res, 404, { error: "Session not found" });
+        return;
+      }
+      sendDownload(res, exported.body, exported.contentType, exported.filename);
       return;
     }
 
