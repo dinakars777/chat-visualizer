@@ -508,7 +508,7 @@ button {
 
 .detail-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1px;
   background: var(--line);
   border-bottom: 1px solid var(--line);
@@ -534,6 +534,13 @@ button {
   text-overflow: ellipsis;
   white-space: normal;
   line-height: 1.25;
+}
+
+.detail-value-id {
+  font-family: var(--mono);
+  font-size: 13px;
+  user-select: all;
+  white-space: nowrap;
 }
 
 .privacy-panel {
