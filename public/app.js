@@ -13,7 +13,9 @@ const state = {
   readerMessages: [],
   readerHasMore: false,
   readerLoading: false,
-  readerRequestId: 0
+  readerRequestId: 0,
+  exportMenuOpen: false,
+  exportLoading: false
 };
 
 const els = {
@@ -46,6 +48,10 @@ const els = {
   transcriptNoticeText: document.getElementById("transcriptNoticeText"),
   loadMoreMessagesButton: document.getElementById("loadMoreMessagesButton"),
   messageList: document.getElementById("messageList"),
+  exportButton: document.getElementById("exportButton"),
+  exportMenu: document.getElementById("exportMenu"),
+  exportMarkdownButton: document.getElementById("exportMarkdownButton"),
+  exportJsonButton: document.getElementById("exportJsonButton"),
   copyResumeButton: document.getElementById("copyResumeButton"),
   copyPathButton: document.getElementById("copyPathButton"),
   toast: document.getElementById("toast")
@@ -155,6 +161,8 @@ async function loadIndex(refresh = false) {
     state.readerMessages = [];
     state.readerHasMore = false;
     state.readerLoading = false;
+    state.exportLoading = false;
+    setExportMenu(false);
     els.readerEmpty.classList.remove("hidden");
     els.readerContent.classList.add("hidden");
   }
@@ -168,6 +176,12 @@ async function loadSession(sessionId, { append = false } = {}) {
   state.readerRequestId = requestId;
   state.selectedSessionId = sessionId;
   state.readerLoading = true;
+  if (!append) {
+    state.readerSession = null;
+    state.readerMessages = [];
+    state.readerHasMore = false;
+  }
+  setExportMenu(false);
   renderSessions();
   els.readerEmpty.classList.add("hidden");
   els.readerContent.classList.remove("hidden");
@@ -204,6 +218,7 @@ function renderReaderLoading(summary, append) {
   els.readerModel.textContent = session?.model || "-";
   els.readerFlags.textContent = session ? formatNumber(session.sensitiveCount) : "-";
   els.privacyPanel.classList.add("hidden");
+  updateExportControls();
   updateTranscriptNotice(session, append ? "append-loading" : "loading");
 
   if (!append) {
@@ -226,6 +241,7 @@ function renderReaderError(summary, error) {
   els.transcriptNoticeTitle.textContent = "Transcript load failed";
   els.transcriptNoticeText.textContent = error.message || "The local transcript could not be read.";
   els.loadMoreMessagesButton.classList.add("hidden");
+  updateExportControls();
   els.messageList.innerHTML = `<div class="empty-state">Try refreshing the index, then open the session again.</div>`;
 }
 
@@ -336,6 +352,8 @@ function renderProjects() {
       state.readerSession = null;
       state.readerMessages = [];
       state.readerHasMore = false;
+      state.exportLoading = false;
+      setExportMenu(false);
       els.readerEmpty.classList.remove("hidden");
       els.readerContent.classList.add("hidden");
       render();
@@ -439,6 +457,7 @@ function renderReader() {
   els.readerUpdated.textContent = formatDate(session.updatedAt);
   els.readerModel.textContent = session.model || "-";
   els.readerFlags.textContent = formatNumber(session.sensitiveCount);
+  updateExportControls();
 
   if (session.sensitiveCount) {
     const kinds = Object.entries(session.sensitiveKinds || {})
@@ -616,6 +635,68 @@ async function copyText(text, fallback) {
   showToast("Copied.");
 }
 
+function setExportMenu(open) {
+  state.exportMenuOpen = Boolean(open);
+  els.exportMenu.classList.toggle("hidden", !state.exportMenuOpen);
+  els.exportButton.setAttribute("aria-expanded", String(state.exportMenuOpen));
+}
+
+function updateExportControls() {
+  const disabled = !state.selectedSessionId || !state.readerSession || state.readerLoading || state.exportLoading;
+  els.exportButton.disabled = disabled;
+  els.exportButton.textContent = state.exportLoading ? "Exporting..." : "Export";
+  els.exportMarkdownButton.disabled = disabled;
+  els.exportJsonButton.disabled = disabled;
+  if (disabled) setExportMenu(false);
+}
+
+function filenameFromDisposition(disposition, fallback) {
+  const quoted = /filename="([^"]+)"/i.exec(disposition || "");
+  if (quoted?.[1]) return quoted[1];
+  const plain = /filename=([^;]+)/i.exec(disposition || "");
+  return plain?.[1]?.trim() || fallback;
+}
+
+function downloadBlob(blob, filename) {
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+async function exportCurrentSession(format) {
+  if (!state.selectedSessionId) {
+    showToast("Open a session first.");
+    return;
+  }
+
+  state.exportLoading = true;
+  setExportMenu(false);
+  updateExportControls();
+  showToast(state.readerHasMore ? "Preparing full transcript export..." : "Preparing export...");
+
+  try {
+    const params = new URLSearchParams({ format });
+    const response = await fetch(`/api/export/session/${encodeURIComponent(state.selectedSessionId)}?${params.toString()}`);
+    if (!response.ok) {
+      const payload = await response.json().catch(() => ({}));
+      throw new Error(payload.error || `Export failed: ${response.status}`);
+    }
+    const blob = await response.blob();
+    const fallback = format === "json" ? "chat-export.json" : "chat-export.md";
+    const filename = filenameFromDisposition(response.headers.get("content-disposition"), fallback);
+    downloadBlob(blob, filename);
+    showToast(`${format === "json" ? "JSON" : "Markdown"} export downloaded.`);
+  } finally {
+    state.exportLoading = false;
+    updateExportControls();
+  }
+}
+
 function showToast(message) {
   els.toast.textContent = message;
   els.toast.classList.add("visible");
@@ -641,6 +722,30 @@ els.deepSearchButton.addEventListener("click", () => {
 els.loadMoreMessagesButton.addEventListener("click", () => {
   if (!state.readerHasMore || state.readerLoading || !state.selectedSessionId) return;
   loadSession(state.selectedSessionId, { append: true }).catch((error) => showToast(error.message));
+});
+
+els.exportButton.addEventListener("click", (event) => {
+  event.stopPropagation();
+  if (els.exportButton.disabled) return;
+  setExportMenu(!state.exportMenuOpen);
+});
+
+els.exportMarkdownButton.addEventListener("click", () => {
+  exportCurrentSession("markdown").catch((error) => showToast(error.message));
+});
+
+els.exportJsonButton.addEventListener("click", () => {
+  exportCurrentSession("json").catch((error) => showToast(error.message));
+});
+
+document.addEventListener("click", (event) => {
+  if (!state.exportMenuOpen) return;
+  if (event.target instanceof Element && event.target.closest(".export-menu")) return;
+  setExportMenu(false);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && state.exportMenuOpen) setExportMenu(false);
 });
 
 els.copyResumeButton.addEventListener("click", () => {
