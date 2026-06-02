@@ -39,6 +39,7 @@ const els = {
   readerTitle: document.getElementById("readerTitle"),
   readerSubtitle: document.getElementById("readerSubtitle"),
   readerMessages: document.getElementById("readerMessages"),
+  readerThreadId: document.getElementById("readerThreadId"),
   readerUpdated: document.getElementById("readerUpdated"),
   readerModel: document.getElementById("readerModel"),
   readerFlags: document.getElementById("readerFlags"),
@@ -132,6 +133,10 @@ function sessionLoadNote(session) {
   return `${size}. Loaded in ${MESSAGE_PAGE_SIZE}-message chunks.`;
 }
 
+function sessionThreadId(session) {
+  return session?.nativeSessionId || session?.id || "";
+}
+
 function tinyBadge(text, extraClass = "") {
   const span = document.createElement("span");
   span.className = `tiny-badge ${extraClass}`.trim();
@@ -214,6 +219,8 @@ function renderReaderLoading(summary, append) {
   els.readerTitle.textContent = session?.title || "Loading transcript";
   els.readerSubtitle.textContent = session?.projectPath || session?.sourcePath || "";
   els.readerMessages.textContent = append ? `${formatNumber(state.readerMessages.length)} loaded` : "...";
+  els.readerThreadId.textContent = sessionThreadId(session) || "-";
+  els.readerThreadId.title = sessionThreadId(session);
   els.readerUpdated.textContent = session ? formatDate(session.updatedAt) : "-";
   els.readerModel.textContent = session?.model || "-";
   els.readerFlags.textContent = session ? formatNumber(session.sensitiveCount) : "-";
@@ -237,6 +244,8 @@ function renderReaderError(summary, error) {
   els.readerProvider.textContent = session ? `${session.providerLabel} / ${session.projectName}` : "Transcript";
   els.readerTitle.textContent = session?.title || "Transcript did not load";
   els.readerSubtitle.textContent = session?.sourcePath || "";
+  els.readerThreadId.textContent = sessionThreadId(session) || "-";
+  els.readerThreadId.title = sessionThreadId(session);
   els.transcriptNotice.classList.remove("hidden");
   els.transcriptNoticeTitle.textContent = "Transcript load failed";
   els.transcriptNoticeText.textContent = error.message || "The local transcript could not be read.";
@@ -454,6 +463,8 @@ function renderReader() {
   els.readerMessages.textContent = session.totalKnown
     ? `${formatNumber(state.readerMessages.length)} / ${formatNumber(session.messageCount)}`
     : `${formatNumber(state.readerMessages.length)} loaded`;
+  els.readerThreadId.textContent = sessionThreadId(session) || "-";
+  els.readerThreadId.title = sessionThreadId(session);
   els.readerUpdated.textContent = formatDate(session.updatedAt);
   els.readerModel.textContent = session.model || "-";
   els.readerFlags.textContent = formatNumber(session.sensitiveCount);
