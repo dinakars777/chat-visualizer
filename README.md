@@ -4,21 +4,32 @@ Local-first webapp for browsing AI coding assistant history across projects.
 
 The app runs on your computer and scans local files only. No transcript content is sent to an external service.
 
+![Sanitized ChatVisualizer screenshot](docs/assets/chatvisualizer-screenshot.svg)
+
 ## Quick Start for Mac
 
-1. Download this project from GitHub.
-   - Click **Code**.
-   - Click **Download ZIP**.
-   - Unzip the file.
-2. Install Node.js 20 or newer from https://nodejs.org/ if you do not already have it.
+Use this path if you do not want to use the terminal.
+
+1. Install Node.js 20 or newer from https://nodejs.org/ if you do not already have it.
    - Choose the **LTS** version.
-3. Open the unzipped folder.
-4. Double-click `Start ChatVisualizer.command`.
-5. Your browser should open to `http://127.0.0.1:4173`.
+2. Download ChatVisualizer from GitHub.
+   - Open https://github.com/dinakars777/chat-visualizer.
+   - Click the green **Code** button.
+   - Click **Download ZIP**.
+3. Open the downloaded ZIP file.
+   - macOS usually unzips it automatically.
+   - If it does not, double-click the ZIP in Downloads.
+4. Open the unzipped folder.
+   - It is usually named `chat-visualizer-main`.
+   - If you downloaded from Releases, it may be named like `chat-visualizer-0.1.0`.
+5. Double-click `Start ChatVisualizer.command`.
+6. Your browser should open to `http://127.0.0.1:4173`.
 
 Leave the terminal window open while using ChatVisualizer. Close that window, or press `Control-C`, to stop the app.
 
 If macOS blocks the launcher, Control-click `Start ChatVisualizer.command`, choose **Open**, then confirm.
+
+If something does not open, see [Troubleshooting](docs/TROUBLESHOOTING.md).
 
 ### Getting Help From an AI Coding Assistant
 

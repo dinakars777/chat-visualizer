@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">ChatVisualizer sanitized app screenshot</title>
+  <desc id="desc">A sanitized screenshot-style preview of ChatVisualizer with fake projects, fake counts, and fake transcript content.</desc>
+  <defs>
+    <style>
+      .bg { fill: #edf5f4; }
+      .surface { fill: #fbfdfd; }
+      .panel { fill: #e6f0ef; }
+      .line { stroke: #c9d8d6; stroke-width: 1; }
+      .line-strong { stroke: #a8bbba; stroke-width: 1.2; }
+      .ink { fill: #172321; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .muted { fill: #5d706d; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .mono { fill: #5d706d; font-family: "SFMono-Regular", "Cascadia Code", Menlo, monospace; font-weight: 700; letter-spacing: 0; }
+      .mono-dark { fill: #286f68; font-family: "SFMono-Regular", "Cascadia Code", Menlo, monospace; font-weight: 800; letter-spacing: 0; }
+      .title { font-size: 34px; font-weight: 800; }
+      .h2 { font-size: 24px; font-weight: 800; }
+      .h3 { font-size: 17px; font-weight: 800; }
+      .big { font-size: 30px; font-weight: 800; }
+      .body { font-size: 14px; }
+      .small { font-size: 12px; }
+      .tiny { font-size: 10px; }
+      .chip { fill: #ffffff; stroke: #c9d8d6; stroke-width: 1; }
+      .chip-active { fill: #172321; }
+      .active { fill: #dce9ff; }
+      .accent { fill: #245eea; }
+      .accent-soft { fill: #edf1ff; stroke: #b9c8ff; stroke-width: 1; }
+      .warn-soft { fill: #fff0d2; stroke: #e6bd74; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="900" rx="18"/>
+
+  <text x="28" y="40" class="mono tiny">LOCAL SESSION INDEX</text>
+  <text x="28" y="82" class="ink title">ChatVisualizer</text>
+
+  <rect x="1370" y="48" width="92" height="44" rx="8" class="surface line-strong"/>
+  <text x="1395" y="76" class="ink body">Refresh</text>
+  <rect x="1472" y="48" width="120" height="44" rx="8" class="accent"/>
+  <text x="1500" y="76" fill="#ffffff" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="14" font-weight="700">Deep search</text>
+
+  <rect x="28" y="116" width="360" height="84" rx="8" class="surface line"/>
+  <text x="44" y="158" class="ink big">12</text>
+  <text x="44" y="184" class="muted body">Projects</text>
+  <rect x="400" y="116" width="360" height="84" rx="8" class="surface line"/>
+  <text x="416" y="158" class="ink big">84</text>
+  <text x="416" y="184" class="muted body">Sessions</text>
+  <rect x="772" y="116" width="360" height="84" rx="8" class="surface line"/>
+  <text x="788" y="158" class="ink big">3,492</text>
+  <text x="788" y="184" class="muted body">Indexed msgs</text>
+  <rect x="1144" y="116" width="448" height="84" rx="8" class="warn-soft"/>
+  <text x="1160" y="158" class="ink big">0</text>
+  <text x="1160" y="184" class="muted body">Privacy flags</text>
+
+  <rect x="28" y="222" width="1544" height="726" rx="10" class="surface line"/>
+
+  <rect x="28" y="222" width="300" height="726" rx="10" class="panel"/>
+  <line x1="328" y1="222" x2="328" y2="948" class="line"/>
+  <text x="48" y="260" class="mono tiny">SEARCH</text>
+  <rect x="48" y="278" width="260" height="46" rx="7" fill="#ffffff" class="line-strong"/>
+  <text x="64" y="306" class="muted body">Project, session, provider, text</text>
+
+  <rect x="48" y="350" width="42" height="34" rx="17" class="chip"/>
+  <text x="64" y="372" class="muted small">All</text>
+  <rect x="98" y="350" width="88" height="34" rx="17" class="chip-active"/>
+  <text x="119" y="372" fill="#ffffff" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="12" font-weight="700">Codex 42</text>
+  <rect x="194" y="350" width="102" height="34" rx="17" class="chip"/>
+  <text x="212" y="372" class="muted small">Claude 18</text>
+  <rect x="48" y="394" width="86" height="34" rx="17" class="chip"/>
+  <text x="68" y="416" class="muted small">Cursor 9</text>
+  <rect x="142" y="394" width="116" height="34" rx="17" class="chip"/>
+  <text x="158" y="416" class="muted small">Antigravity 15</text>
+
+  <text x="48" y="472" class="ink h2">Projects</text>
+  <rect x="48" y="494" width="260" height="74" class="active"/>
+  <text x="64" y="524" class="ink h3">All projects</text>
+  <text x="266" y="524" text-anchor="end" class="ink h3">84</text>
+  <text x="64" y="550" class="muted body">Unified local history</text>
+  <line x1="48" y1="604" x2="308" y2="604" class="line"/>
+  <text x="64" y="636" class="ink h3">acme-dashboard</text>
+  <text x="266" y="636" text-anchor="end" class="ink h3">31</text>
+  <text x="64" y="662" class="muted body">/Users/alex/Projects/acme-dashboard</text>
+  <rect x="64" y="682" width="56" height="22" rx="11" fill="#ffffff" class="line"/>
+  <text x="76" y="697" class="mono-dark tiny">Codex</text>
+  <rect x="128" y="682" width="66" height="22" rx="11" fill="#ffffff" class="line"/>
+  <text x="142" y="697" class="mono tiny">842 msg</text>
+  <line x1="48" y1="738" x2="308" y2="738" class="line"/>
+  <text x="64" y="770" class="ink h3">mobile-api</text>
+  <text x="266" y="770" text-anchor="end" class="ink h3">12</text>
+  <text x="64" y="796" class="muted body">/Users/alex/Projects/mobile-api</text>
+
+  <rect x="328" y="222" width="480" height="726" class="surface"/>
+  <line x1="808" y1="222" x2="808" y2="948" class="line"/>
+  <text x="352" y="260" class="mono tiny">ALL PROJECTS</text>
+  <text x="352" y="294" class="ink h2">Recent sessions</text>
+  <circle cx="774" cy="274" r="15" fill="#ffffff" class="line"/>
+  <text x="774" y="279" text-anchor="middle" class="muted body">5</text>
+
+  <rect x="328" y="322" width="480" height="104" class="active"/>
+  <text x="352" y="356" class="ink h3">Fix checkout flow</text>
+  <text x="776" y="356" text-anchor="end" class="ink body">Jun 3 at 9:24 AM</text>
+  <text x="352" y="386" class="muted body">Review cart validation and export final notes.</text>
+  <rect x="352" y="404" width="58" height="22" rx="11" fill="#ffffff" class="line"/>
+  <text x="365" y="419" class="mono-dark tiny">Codex</text>
+  <rect x="418" y="404" width="58" height="22" rx="11" fill="#ffffff" class="line"/>
+  <text x="432" y="419" class="mono tiny">18 msg</text>
+
+  <line x1="328" y1="426" x2="808" y2="426" class="line"/>
+  <text x="352" y="462" class="ink h3">Refactor webhook handler</text>
+  <text x="776" y="462" text-anchor="end" class="ink body">Jun 2 at 4:10 PM</text>
+  <text x="352" y="492" class="muted body">Move provider parsing into small helpers.</text>
+  <rect x="352" y="510" width="58" height="22" rx="11" fill="#ffffff" class="line"/>
+  <text x="365" y="525" class="mono-dark tiny">Codex</text>
+  <rect x="418" y="510" width="58" height="22" rx="11" fill="#ffffff" class="line"/>
+  <text x="432" y="525" class="mono tiny">42 msg</text>
+
+  <line x1="328" y1="544" x2="808" y2="544" class="line"/>
+  <text x="352" y="580" class="ink h3">Compare local agent runs</text>
+  <text x="776" y="580" text-anchor="end" class="ink body">Jun 1 at 1:32 PM</text>
+  <text x="352" y="610" class="muted body">Find the thread that changed the API client.</text>
+
+  <rect x="808" y="222" width="764" height="726" fill="#ffffff"/>
+  <text x="832" y="260" class="mono tiny">CODEX / ACME-DASHBOARD</text>
+  <text x="832" y="294" class="ink h2">Fix checkout flow</text>
+  <text x="832" y="324" class="muted body">/Users/alex/Projects/acme-dashboard</text>
+  <rect x="1334" y="246" width="72" height="38" rx="7" class="surface line-strong"/>
+  <text x="1354" y="270" class="ink body">Export</text>
+  <rect x="1414" y="246" width="102" height="38" rx="7" class="surface line-strong"/>
+  <text x="1432" y="270" class="ink body">Copy path</text>
+
+  <line x1="808" y1="344" x2="1572" y2="344" class="line"/>
+  <rect x="808" y="344" width="153" height="78" class="surface"/>
+  <text x="828" y="374" class="muted small">MESSAGES</text>
+  <text x="828" y="400" class="ink h3">18 / 18</text>
+  <rect x="961" y="344" width="153" height="78" class="surface"/>
+  <text x="981" y="374" class="muted small">THREAD ID</text>
+  <text x="981" y="400" class="mono-dark small">demo-7f2a91bc</text>
+  <rect x="1114" y="344" width="153" height="78" class="surface"/>
+  <text x="1134" y="374" class="muted small">UPDATED</text>
+  <text x="1134" y="400" class="ink h3">Jun 3, 2026</text>
+  <rect x="1267" y="344" width="153" height="78" class="surface"/>
+  <text x="1287" y="374" class="muted small">MODEL</text>
+  <text x="1287" y="400" class="ink h3">gpt-5</text>
+  <rect x="1420" y="344" width="152" height="78" class="surface"/>
+  <text x="1440" y="374" class="muted small">FLAGS</text>
+  <text x="1440" y="400" class="ink h3">0</text>
+
+  <rect x="832" y="454" width="720" height="68" rx="8" class="accent-soft"/>
+  <text x="852" y="482" class="mono-dark small">TRANSCRIPT LOADED</text>
+  <text x="852" y="506" class="muted body">18 messages loaded locally. Export saves the complete thread.</text>
+
+  <text x="832" y="568" class="mono-dark small">USER</text>
+  <text x="940" y="568" class="muted small">Jun 3, 2026 at 9:12 AM / line 4</text>
+  <text x="940" y="604" class="ink body">Can you inspect the checkout validation and summarize the safest fix?</text>
+  <line x1="832" y1="642" x2="1552" y2="642" class="line"/>
+  <text x="832" y="692" class="mono-dark small">ASSISTANT</text>
+  <text x="940" y="692" class="muted small">Jun 3, 2026 at 9:18 AM / line 12</text>
+  <text x="940" y="728" class="ink body">The issue is in client-side quantity bounds. The narrow fix is to validate before submit</text>
+  <text x="940" y="754" class="ink body">and keep server validation unchanged.</text>
+  <line x1="832" y1="802" x2="1552" y2="802" class="line"/>
+  <rect x="832" y="826" width="720" height="44" rx="8" fill="#fbfdfd" class="line"/>
+  <text x="852" y="854" class="muted body">End of transcript.</text>
+</svg>
