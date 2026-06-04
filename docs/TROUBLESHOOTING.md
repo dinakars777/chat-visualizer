@@ -38,6 +38,34 @@ http://127.0.0.1:4173
 
 Leave the Terminal window open while using ChatVisualizer.
 
+## The Desktop App Opens Blank
+
+If you are running the Electron desktop app from source:
+
+```sh
+npm run electron
+```
+
+If the window opens blank, quit the app and check whether another local app is using port 4173. ChatVisualizer can reuse its own server on that port, but unrelated apps can block startup.
+
+You can still run the browser version:
+
+```sh
+npm start
+```
+
+Then open:
+
+```text
+http://127.0.0.1:4173
+```
+
+## macOS Blocks the Desktop App
+
+Local preview builds are ad-hoc signed. If macOS blocks the app, open it from Finder with Control-click, choose Open, then confirm Open.
+
+Before broad public distribution, release builds should use an Apple Developer ID certificate and notarization so users do not see this warning.
+
 ## Port 4173 Is Already In Use
 
 If ChatVisualizer says it is already running, open:

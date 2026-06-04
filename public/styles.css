@@ -32,11 +32,26 @@ body {
   min-height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: oklch(0.52 0.21 260 / 0.18);
+}
+
+* {
+  scrollbar-color: oklch(0.69 0.034 185) transparent;
+  scrollbar-width: thin;
 }
 
 button,
@@ -100,12 +115,22 @@ button {
   padding: 0 14px;
   color: var(--text);
   background: var(--surface-strong);
-  transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1), border-color 150ms ease, background 150ms ease;
+  transition:
+    transform 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 150ms ease,
+    background 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .button:hover {
   border-color: var(--text);
+  box-shadow: 0 8px 18px oklch(0.18 0.018 180 / 0.07);
   transform: translateY(-1px);
+}
+
+.button:active {
+  box-shadow: none;
+  transform: translateY(0);
 }
 
 .button:focus-visible,
@@ -190,6 +215,7 @@ button {
   border-radius: var(--radius);
   background: var(--surface);
   padding: 14px;
+  transition: border-color 160ms ease, background 160ms ease;
 }
 
 .metric.warning {
@@ -329,6 +355,8 @@ button {
 .session-list,
 .message-list {
   overflow: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
 }
 
 .project-list {
@@ -350,16 +378,22 @@ button {
   color: inherit;
   text-align: left;
   background: transparent;
+  transition:
+    background 140ms ease,
+    box-shadow 140ms ease,
+    transform 140ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-item:hover,
 .session-item:hover {
   background: oklch(0.52 0.21 260 / 0.055);
+  box-shadow: inset 3px 0 0 oklch(0.52 0.21 260 / 0.22);
 }
 
 .project-item.active,
 .session-item.active {
   background: var(--accent-soft);
+  box-shadow: inset 3px 0 0 var(--accent);
 }
 
 .session-item.load-more {
@@ -499,6 +533,7 @@ button {
   justify-content: space-between;
   gap: 20px;
   border-bottom: 1px solid var(--line);
+  background: var(--surface-strong);
 }
 
 .reader-head h2 {
@@ -584,6 +619,15 @@ button {
 .message-list {
   height: calc(100vh - 380px);
   padding: 14px 16px 26px;
+  background:
+    linear-gradient(var(--surface-strong) 30%, transparent),
+    linear-gradient(transparent, var(--surface-strong) 70%) 0 100%,
+    linear-gradient(oklch(0.18 0.018 180 / 0.08), transparent),
+    linear-gradient(transparent, oklch(0.18 0.018 180 / 0.08)) 0 100%;
+  background-attachment: local, local, scroll, scroll;
+  background-color: var(--surface-strong);
+  background-repeat: no-repeat;
+  background-size: 100% 28px, 100% 28px, 100% 12px, 100% 12px;
 }
 
 .message {
@@ -703,6 +747,49 @@ button {
   padding: 28px 16px;
   color: var(--muted);
   font-size: 14px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .app-shell {
+    animation: app-enter 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .workspace {
+    animation: surface-enter 320ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+  }
+
+  .metric {
+    animation: surface-enter 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .reader-empty:not(.hidden),
+  .reader-content:not(.hidden),
+  .transcript-notice:not(.hidden),
+  .export-popover:not(.hidden) {
+    animation: surface-enter 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@keyframes app-enter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes surface-enter {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 1180px) {

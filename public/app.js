@@ -144,6 +144,10 @@ function tinyBadge(text, extraClass = "") {
   return span;
 }
 
+function nextPaint() {
+  return new Promise((resolve) => requestAnimationFrame(resolve));
+}
+
 async function fetchJson(url) {
   const response = await fetch(url);
   const payload = await response.json();
@@ -191,6 +195,7 @@ async function loadSession(sessionId, { append = false } = {}) {
   els.readerEmpty.classList.add("hidden");
   els.readerContent.classList.remove("hidden");
   renderReaderLoading(summary, append);
+  await nextPaint();
 
   const params = new URLSearchParams({
     offset: String(offset),

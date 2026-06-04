@@ -19,9 +19,17 @@ pnpm-debug.log*
 
 # Generated test/browser artifacts
 .playwright-mcp/
+chatvisualizer-electron-polish-*.png
 playwright-report/
 test-results/
 coverage/
+
+# Generated icon intermediates
+build/icon.iconset/
+build/icon.svg.png
+
+# Packaged desktop app artifacts
+dist/
 
 # Internal planning/design artifacts
 ChatVisualizer-internal/
