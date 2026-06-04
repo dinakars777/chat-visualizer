@@ -62,7 +62,15 @@ http://127.0.0.1:4173
 
 ## macOS Blocks the Desktop App
 
-Local preview builds are ad-hoc signed. If macOS blocks the app, open it from Finder with Control-click, choose Open, then confirm Open.
+Current downloadable preview builds are unsigned. If macOS blocks the app:
+
+1. Open Finder.
+2. Go to Applications.
+3. Control-click `ChatVisualizer`.
+4. Choose **Open**.
+5. Confirm **Open**.
+
+This only needs to be done once.
 
 Before broad public distribution, release builds should use an Apple Developer ID certificate and notarization so users do not see this warning.
 

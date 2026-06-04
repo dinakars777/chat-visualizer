@@ -6,7 +6,21 @@ The app runs on your computer and scans local files only. No transcript content 
 
 ![Sanitized ChatVisualizer screenshot](docs/assets/chatvisualizer-screenshot.svg)
 
-## Quick Start for Mac
+## Download Mac App
+
+This is the easiest path for most Mac users.
+
+1. Open the [latest release](https://github.com/dinakars777/chat-visualizer/releases/latest).
+2. Download the DMG for your Mac:
+   - `arm64` for Apple Silicon Macs (M1, M2, M3, M4, or newer)
+   - `x64` for Intel Macs
+3. Open the DMG.
+4. Drag `ChatVisualizer` to Applications.
+5. Open `ChatVisualizer`.
+
+Current downloadable builds are unsigned preview builds. If macOS blocks the app, Control-click `ChatVisualizer`, choose **Open**, then confirm. See [Troubleshooting](docs/TROUBLESHOOTING.md) for details.
+
+## Source Install for Mac
 
 Use this path if you do not want to use the terminal.
 
@@ -77,7 +91,7 @@ Then open `http://127.0.0.1:4173`.
 
 There is no build step. The app serves the local `public/` files from `server.js`.
 
-## Desktop App
+## Desktop App Development
 
 ChatVisualizer also includes an Electron wrapper for a Mac desktop app.
 
@@ -96,17 +110,17 @@ npm run package:mac
 
 On Apple Silicon Macs, the packaged app is written to `dist/mac-arm64/ChatVisualizer.app`.
 
-Build a DMG for distribution:
+Build a local DMG:
 
 ```sh
 npm run dist:mac
 ```
 
-On Apple Silicon Macs, the DMG is written to `dist/ChatVisualizer-0.1.0-arm64.dmg`.
+On Apple Silicon Macs, the DMG is written to `dist/ChatVisualizer-0.2.0-arm64.dmg`.
 
 The Electron app starts the same local server as the web version. If `http://127.0.0.1:4173` is already running, it reuses that server.
 
-Local preview builds are ad-hoc signed. Public Mac releases should be signed and notarized before broad distribution.
+Downloadable preview builds are unsigned. Public Mac releases should be signed and notarized before broad distribution.
 
 ## Privacy
 
