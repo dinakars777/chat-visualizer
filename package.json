@@ -1,16 +1,53 @@
 {
   "name": "chat-visualizer",
+  "productName": "ChatVisualizer",
   "version": "0.1.0",
   "private": true,
   "description": "Local-first browser for Codex, Claude Code, Cursor, Grok Build, and Antigravity chat/session history.",
+  "author": "dinakars777",
   "license": "MIT",
+  "main": "electron/main.js",
   "type": "commonjs",
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "check": "node --check server.js && node --check public/app.js"
+    "electron": "electron .",
+    "package:mac": "electron-builder --mac --dir",
+    "dist:mac": "electron-builder --mac dmg",
+    "check": "node --check server.js && node --check public/app.js && node --check electron/main.js"
   },
   "engines": {
     "node": ">=20"
+  },
+  "build": {
+    "appId": "com.dinakars777.chatvisualizer",
+    "productName": "ChatVisualizer",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "server.js",
+      "public/**/*",
+      "docs/**/*",
+      "README.md",
+      "LICENSE",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns",
+      "target": [
+        "dir",
+        "dmg"
+      ]
+    },
+    "dmg": {
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "^42.3.3",
+    "electron-builder": "^26.8.1"
   }
 }

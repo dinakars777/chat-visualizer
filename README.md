@@ -1,6 +1,6 @@
 # ChatVisualizer
 
-Local-first webapp for browsing AI coding assistant history across projects.
+Local-first desktop/web app for browsing AI coding assistant history across projects.
 
 The app runs on your computer and scans local files only. No transcript content is sent to an external service.
 
@@ -76,6 +76,37 @@ npm start
 Then open `http://127.0.0.1:4173`.
 
 There is no build step. The app serves the local `public/` files from `server.js`.
+
+## Desktop App
+
+ChatVisualizer also includes an Electron wrapper for a Mac desktop app.
+
+Run the desktop app from source:
+
+```sh
+npm install
+npm run electron
+```
+
+Build a local Mac app bundle:
+
+```sh
+npm run package:mac
+```
+
+On Apple Silicon Macs, the packaged app is written to `dist/mac-arm64/ChatVisualizer.app`.
+
+Build a DMG for distribution:
+
+```sh
+npm run dist:mac
+```
+
+On Apple Silicon Macs, the DMG is written to `dist/ChatVisualizer-0.1.0-arm64.dmg`.
+
+The Electron app starts the same local server as the web version. If `http://127.0.0.1:4173` is already running, it reuses that server.
+
+Local preview builds are ad-hoc signed. Public Mac releases should be signed and notarized before broad distribution.
 
 ## Privacy
 

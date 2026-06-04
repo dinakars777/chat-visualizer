@@ -1740,18 +1740,48 @@ async function handleApi(req, res, url) {
   }
 }
 
-const server = http.createServer((req, res) => {
-  const url = new URL(req.url, `http://${req.headers.host}`);
-  if (url.pathname.startsWith("/api/")) {
-    handleApi(req, res, url);
-    return;
-  }
-  serveStatic(req, res, url.pathname);
-});
-
-server.listen(PORT, "127.0.0.1", () => {
-  console.log(`ChatVisualizer running at http://127.0.0.1:${PORT}`);
-  ensureIndex(false).catch((error) => {
-    console.error(`Initial scan failed: ${error.message}`);
+function createHttpServer() {
+  return http.createServer((req, res) => {
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    if (url.pathname.startsWith("/api/")) {
+      handleApi(req, res, url);
+      return;
+    }
+    serveStatic(req, res, url.pathname);
   });
-});
+}
+
+function startServer(options = {}) {
+  const host = options.host || "127.0.0.1";
+  const port = Number.isFinite(Number(options.port)) ? Number(options.port) : PORT;
+  const server = createHttpServer();
+
+  return new Promise((resolve, reject) => {
+    const onError = (error) => reject(error);
+    server.once("error", onError);
+    server.listen(port, host, () => {
+      server.off("error", onError);
+      const address = server.address();
+      const actualPort = typeof address === "object" && address ? address.port : port;
+      const url = `http://${host}:${actualPort}`;
+      console.log(`ChatVisualizer running at ${url}`);
+      ensureIndex(false).catch((error) => {
+        console.error(`Initial scan failed: ${error.message}`);
+      });
+      resolve({ server, port: actualPort, url });
+    });
+  });
+}
+
+if (require.main === module) {
+  startServer().catch((error) => {
+    console.error(`ChatVisualizer failed to start: ${error.message}`);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {
+  startServer,
+  createHttpServer,
+  ensureIndex
+};

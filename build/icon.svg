@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="tile" x1="196" x2="828" y1="124" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#24302d"/>
+      <stop offset="0.56" stop-color="#171411"/>
+      <stop offset="1" stop-color="#0f1413"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="250" x2="780" y1="246" y2="745" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fffdf8"/>
+      <stop offset="1" stop-color="#eaf3f1"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="328" x2="704" y1="418" y2="612" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="34" stdDeviation="34" flood-color="#091311" flood-opacity="0.28"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#091311" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="1024" fill="none"/>
+
+  <g filter="url(#shadow)">
+    <rect x="118" y="92" width="788" height="820" rx="188" fill="url(#tile)"/>
+    <rect x="150" y="124" width="724" height="756" rx="160" fill="none" stroke="#f4f1eb" stroke-opacity="0.07" stroke-width="7"/>
+
+    <path fill="url(#paper)" d="M270 250h486c48 0 86 39 86 86v280c0 48-38 86-86 86H492L348 822v-120h-78c-48 0-86-38-86-86V336c0-47 38-86 86-86Z"/>
+    <path fill="#0f1413" fill-opacity="0.12" d="M348 702h92L348 778v-76Z"/>
+
+    <path fill="#d7e5e2" d="M322 360h380c18 0 32 14 32 32s-14 32-32 32H322c-18 0-32-14-32-32s14-32 32-32Zm0 120h210c18 0 32 14 32 32s-14 32-32 32H322c-18 0-32-14-32-32s14-32 32-32Zm0 120h310c18 0 32 14 32 32s-14 32-32 32H322c-18 0-32-14-32-32s14-32 32-32Z"/>
+
+    <path fill="none" stroke="url(#blue)" stroke-linecap="round" stroke-linejoin="round" stroke-width="34" d="M326 606c70-110 140-90 196-26 66 75 126 58 192-70"/>
+    <circle cx="326" cy="606" r="42" fill="#155eef"/>
+    <circle cx="522" cy="580" r="42" fill="#0f766e"/>
+    <circle cx="714" cy="510" r="42" fill="#155eef"/>
+    <circle cx="326" cy="606" r="15" fill="#fffdf8"/>
+    <circle cx="522" cy="580" r="15" fill="#fffdf8"/>
+    <circle cx="714" cy="510" r="15" fill="#fffdf8"/>
+
+    <circle cx="734" cy="332" r="34" fill="#f7c66a"/>
+    <path fill="#5a3308" d="M734 310c10 0 18 8 18 18v20c0 10-8 18-18 18s-18-8-18-18v-20c0-10 8-18 18-18Z"/>
+  </g>
+</svg>
